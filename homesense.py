@@ -1,3 +1,5 @@
+# TASK 1.1 - Device Range
+# Returns the normal energy range for each supported device
 def get_device_range(device):
     if device == "LED Light":
         return 0.01 , 0.10
@@ -10,39 +12,56 @@ def get_device_range(device):
     elif device == "Air Conditioner":
         return 0.50 , 5.00
     else:
+        # Return None if the device is not supported
         return None 
+    # TASK 1.2 - Energy Status
+    # Determines whether the energy reading is Normal, High, or Critical
 def get_energy_status(device,energy):
     device_range = get_device_range(device)
+    # Check if the device is unknown
     if device_range is None:    
         return "Unknown Device"
     Minimum,Maximum = device_range
+    # Energy within the normal range is classified as Normal
     if energy >= Minimum and energy <= Maximum:
         return "Normal"
+    # Energy above the normal maximum up to twice the maximum is High
     elif energy > Maximum and energy <= Maximum*2:
         return "High"
+    # Energy above twice the normal maximum is Critical
     else:
         return "Critical"
+    # TASK 1.3 - Attention Required
+    # Determines whether the reading requires attention
 def requires_attention(device,energy):
     status = get_energy_status(device,energy)
+    # Normal readings do not require attention
     if status == "Normal":
         return False
     else:
+        # High and Critical readings require attention
         return True
+    # TASK 2 - Cost Calculation
+    # Calculates the estimated electricity cost
 def calculate_cost(energy,rate):
+    # Negative energy or rate values are considered invalid
     if energy < 0 or rate < 0:
         return "Invalid"
     estimate_cost = rate*energy
     return estimate_cost
+# TASK 3 - Recommendations
+# Provides a recommendation based on the device and its energy status
 def recommendation_letter(device,energy):
     status = get_energy_status(device,energy)
+    # Recommendations for Air Conditioner
     if device == "Air Conditioner":
-
         if status == "High":
             return "Check the operating duration and temperature settings"
         elif status == "Critical":
             return "turn off your device"
         else:
             return "the device status is good, I recommend maintaining it"
+        # Recommendations for Television
     elif device == "Television":
          if status == "High":
             return "Check the operating duration"
@@ -50,6 +69,7 @@ def recommendation_letter(device,energy):
              return "turn off your TV"
          else:
              return "the device status is good, I recommend maintaining it"
+         # Recommendations for LED Light
     elif device == "LED Light":
          if status == "High":
             return "Check the battery and wires"
@@ -57,6 +77,7 @@ def recommendation_letter(device,energy):
             return "turn off your led"
          else:
             return "the device status is good, I recommend maintaining it"
+         # Recommendations for Refrigerator
     elif device == "Refrigerator":
          if status == "High":
             return "put an organizer"
@@ -64,6 +85,7 @@ def recommendation_letter(device,energy):
             return "turn off your refrigetor for a while"
          else:
             return "the device status is good, I recommend maintaining it"
+         # Recommendations for Washing Machine
     elif device == "Washing Machine":
          if status == "High":
             return "check temperature and load"
@@ -73,6 +95,8 @@ def recommendation_letter(device,energy):
             return "the device status is good, I recommend maintaining it"
     else:
         return "Invalid"
+    # TASK 4 - Sample Readings
+    # Sample energy readings used by the HomeSense program
 readings = [
     ("LED Light", 0.06),
     ("LED Light", 0.18),
@@ -114,7 +138,7 @@ print(calculate_cost(3,1))
 print( recommendation_letter("Television",5))
 print( recommendation_letter("LED Light",0.02))
 
-
+# Variables used to calculate the final HomeSense report
 total_energy = 0
 total_cost = 0
 
@@ -125,30 +149,36 @@ attention_count = 0
 
 highest_energy = 0
 highest_device = ""
-
+# TASK 4 - Process Readings
+# TASK 5 - Calculate Summary
+# Process all readings using a loop
 for device, energy in readings:
     status = get_energy_status(device, energy)
     attention = requires_attention(device, energy)
+    # Electricity rate is 0.30 AED per kWh
     cost = calculate_cost(energy, 0.30)
 
     print("Device: ",device,"Energy: ",energy,"Status: ",status,"Does it required attention: ",attention,"Cost: ",cost)
-
+# Add the current reading to the total energy and cost
     total_energy += energy
     total_cost += cost
-
+# Count readings according to their status
     if status == "Normal":
         normal_count = normal_count + 1
     elif status == "High":
         high_count = high_count + 1
     elif status == "Critical":
         critical_count = critical_count + 1
-
+# Count readings that require attention
     if attention:
         attention_count = attention_count + 1
-
+# Find the device with the highest individual consumption
     if energy > highest_energy:
         highest_energy = energy
         highest_device = device
+# TASK 5 - HomeSense Report
+# TASK 6 - Readable Report
+# Display the final HomeSense report
 print()
 print("================================")
 print("       HomeSense Report")

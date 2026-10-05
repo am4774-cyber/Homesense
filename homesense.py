@@ -164,15 +164,15 @@ for device, energy in readings:
     total_cost += cost
 # Count readings according to their status
     if status == "Normal":
-        normal_count = normal_count + 1
+        normal_count = normal_count + 1 # increase normal_count by 1
     elif status == "High":
-        high_count = high_count + 1
+        high_count = high_count + 1 # we want to increase the previous count by 1
     elif status == "Critical":
         critical_count = critical_count + 1
 # Count readings that require attention
     if attention:
         attention_count = attention_count + 1
-# Find the device with the highest individual consumption
+# Find the device with the highest individual consumption by comparing the current energy with the highest one
     if energy > highest_energy:
         highest_energy = energy
         highest_device = device
@@ -185,10 +185,9 @@ print("       HomeSense Report")
 print("================================")
 print("Total readings:", len(readings))
 print()
-print("Total energy consumed:", total_energy, "kWh")
+print("Total energy consumed:", total_energy, "kWh") 
 print()
-print("Total estimated cost: AED", round(total_cost, 2))
-print()
+print("Total estimated cost: AED", round(total_cost, 2)) # round is used to round the result to fixed decimals after the point
 print("Normal readings:", normal_count)
 print("High readings:", high_count)
 print("Critical readings:", critical_count)

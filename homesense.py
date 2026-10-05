@@ -159,7 +159,7 @@ for device, energy in readings:
     cost = calculate_cost(energy, 0.30)
 
     print("Device: ",device,"Energy: ",energy,"Status: ",status,"Does it required attention: ",attention,"Cost: ",cost)
-# Add the current reading to the total energy and cost
+# at each iteration,Add the current reading to the total energy and cost 
     total_energy += energy
     total_cost += cost
 # Count readings according to their status
